@@ -9,17 +9,17 @@
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 16px; display: flex; justify-content: center; min-height: 100vh; }
   .app { width: 100%; max-width: 720px; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid #334155; align-self: flex-start; margin-top: 10px; }
   .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 14px; margin-bottom: 20px; }
-  .badge { background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.5px; }
+  .badge { background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
   .stats { font-size: 14px; color: #94a3b8; font-weight: 600; }
-  .topic { font-size: 12px; text-transform: uppercase; color: #38bdf8; font-weight: 700; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .topic { font-size: 12px; text-transform: uppercase; color: #38bdf8; font-weight: 700; margin-bottom: 8px; }
   h2 { font-size: 19px; line-height: 1.45; margin: 0 0 20px 0; color: #f1f5f9; }
   .options { display: flex; flex-direction: column; gap: 12px; }
-  button.opt { background: #0f172a; border: 1.5px solid #334155; color: #e2e8f0; padding: 15px 16px; border-radius: 12px; text-align: left; font-size: 15px; line-height: 1.4; cursor: pointer; touch-action: manipulation; width: 100%; }
+  button.opt { background: #0f172a; border: 1.5px solid #334155; color: #e2e8f0; padding: 15px 16px; border-radius: 12px; text-align: left; font-size: 15px; line-height: 1.4; cursor: pointer; width: 100%; }
   button.opt.correct { background: #064e3b; border-color: #10b981; color: #ecfdf5; font-weight: 600; }
   button.opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fef2f2; }
   .feedback { margin-top: 18px; padding: 14px 16px; border-radius: 10px; background: #0f172a; border-left: 4px solid #38bdf8; font-size: 14px; line-height: 1.5; color: #cbd5e1; display: none; }
   .controls { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
-  .btn-main { background: #0284c7; color: #fff; border: none; padding: 13px 22px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; touch-action: manipulation; display: none; }
+  .btn-main { background: #0284c7; color: #fff; border: none; padding: 13px 22px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; display: none; }
   .btn-hint { background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
   .result { text-align: center; display: none; padding: 20px 0; }
   .score-big { font-size: 48px; font-weight: 800; color: #38bdf8; margin: 10px 0; }
@@ -29,16 +29,21 @@
 <div class="app">
   <div class="header">
     <span class="badge">CARBYTE ENERGY-IT | STUFE 1</span>
-    <span class="stats" id="progress">Frage 1 / 10</span>
+    <span class="stats" id="progress">Frage 1 / 10 | Punkte: 0</span>
   </div>
   <div id="quiz-box">
-    <div class="topic" id="q-topic"></div>
-    <h2 id="q-text"></h2>
-    <div class="options" id="q-options"></div>
+    <div class="topic" id="q-topic">Marktrollen &amp; Wertschöpfung</div>
+    <h2 id="q-text">Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?</h2>
+    <div class="options" id="q-options">
+      <button class="opt" onclick="ans(this, 1)">Übertragungsnetzbetreiber (ÜNB / TSO)</button>
+      <button class="opt" onclick="ans(this, 0)">Verteilnetzbetreiber (VNB / DSO)</button>
+      <button class="opt" onclick="ans(this, 0)">Grundzuständiger Messstellenbetreiber (gMSB)</button>
+      <button class="opt" onclick="ans(this, 0)">Bilanzkreisverantwortlicher (BKV)</button>
+    </div>
     <div class="feedback" id="q-feedback"></div>
     <div class="controls">
-      <button class="btn-hint" id="btn-hint" onclick="showHint()">💡 Experten-Hinweis</button>
-      <button class="btn-main" id="btn-next" onclick="nextQ()">Nächste Frage ➔</button>
+      <button class="btn-hint" id="btn-hint" onclick="hint()">💡 Experten-Hinweis</button>
+      <button class="btn-main" id="btn-next" onclick="next()">Nächste Frage ➔</button>
     </div>
   </div>
   <div class="result" id="result-box">
@@ -46,91 +51,92 @@
     <h2>Dein Experten-Ergebnis (Stufe 1)</h2>
     <div class="score-big" id="final-score"></div>
     <p id="final-msg" style="color:#94a3b8; margin-bottom:24px; line-height:1.5;"></p>
-    <button class="btn-main" style="display:inline-block;" onclick="restart()">🔄 Neue Runde starten (Zufallsmix)</button>
+    <button class="btn-main" style="display:inline-block;" onclick="resetQuiz()">🔄 Neue Runde starten</button>
   </div>
 </div>
 
 <script>
-var data = new Array(
+var qList = new Array(
   {
     t: "Marktrollen & Wertschöpfung",
     q: "Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?",
-    o1: "Übertragungsnetzbetreiber (ÜNB / TSO)",
-    o2: "Verteilnetzbetreiber (VNB / DSO)",
-    o3: "Grundzuständiger Messstellenbetreiber (gMSB)",
-    o4: "Bilanzkreisverantwortlicher (BKV)",
+    a: "Übertragungsnetzbetreiber (ÜNB / TSO)",
+    b: "Verteilnetzbetreiber (VNB / DSO)",
+    c: "Grundzuständiger Messstellenbetreiber (gMSB)",
+    d: "Bilanzkreisverantwortlicher (BKV)",
+    ok: "a",
     h: "Denke an die 4 Betreiber der großen Strom-Autobahnen (Amprion, TenneT, 50Hertz, TransnetBW).",
     e: "Richtig! Die 4 deutschen ÜNBs steuern das Höchstspannungsnetz, halten die Frequenz sekundengenau bei 50 Hz und führen den Redispatch."
   },
   {
     t: "Regulierung & § 14a EnWG",
     q: "Welcher garantierte Mindestleistungs-Sockel (Wirkleistung) muss einer steuerbaren Verbrauchseinrichtung (> 4,2 kW) bei einem aktiven Dimm-Eingriff durch den VNB nach § 14a EnWG mindestens verbleiben?",
-    o1: "4,2 kW",
-    o2: "0,0 kW (vollständige Abschaltung)",
-    o3: "2,3 kW (Schuko-Basislast)",
-    o4: "11,0 kW",
+    a: "0,0 kW (vollständige Abschaltung)",
+    b: "4,2 kW",
+    c: "2,3 kW (Schuko-Basislast)",
+    d: "11,0 kW",
+    ok: "b",
     h: "Der Schwellenwert für die Pflichtteilnahme und die garantierte Mindestleistung im gedimmten Zustand sind identisch.",
-    e: "Exakt! Der Netzbetreiber darf Wallboxen oder Wärmepumpen (> 4,2 kW) bei Netzengpässen nicht auf Null abregeln, sondern muss mindestens 4,2 kW pro SteuVE (bzw. dynamisch im HEMS) garantieren."
+    e: "Exakt! Der Netzbetreiber darf Wallboxen oder Wärmepumpen (> 4,2 kW) bei Netzengpässen nicht auf Null abregeln, sondern muss mindestens 4,2 kW pro SteuVE garantieren."
   },
   {
     t: "Smart Metering & BSI-Architektur",
     q: "Welche Schnittstelle am Smart Meter Gateway (SMGW) bildet die kryptografisch gesicherte Brücke vom regulierten Netzbereich in das lokale Kundennetz (Steuerbox / HEMS)?",
-    o1: "CLS-Schnittstelle (Controllable Local System)",
-    o2: "LMN-Schnittstelle (Local Metrological Network)",
-    o3: "RS-485 Service-Port",
-    o4: "WAN-Mobilfunk-Antenne",
+    a: "LMN-Schnittstelle (Local Metrological Network)",
+    b: "RS-485 Service-Port",
+    c: "CLS-Schnittstelle (Controllable Local System)",
+    d: "WAN-Mobilfunk-Antenne",
+    ok: "c",
     h: "Die Abkürzung steht für 'Controllable Local System'.",
     e: "Perfekt! Über den CLS-Proxy-Kanal kommuniziert der VNB Ende-zu-Ende-verschlüsselt mit der Steuerbox oder einem zertifizierten HEMS (wie dem neuen Kiwigrid RailX+)."
   },
   {
     t: "B2B-Vertriebsstrategie & Skalierung",
     q: "Warum fokussiert sich unsere B2B-Strategie im Versorgersegment primär auf Multiplikatoren wie Thüga SmartService, SIV.AG oder Kiwigrid statt auf Einzel-Stadtwerke?",
-    o1: "Ein einziger Plattform-Abschluss öffnet über White-Label-Schnittstellen den Zugang zu hunderten Stadtwerken gleichzeitig.",
-    o2: "Einzelne Stadtwerke unterliegen nicht dem EnWG oder der NIS-2-Richtlinie.",
-    o3: "Plattform-Enabler benötigen keine Sicherheitsaudits.",
-    o4: "Stadtwerke dürfen gesetzlich keine externen IT-Dienstleister beauftragen.",
+    a: "Einzelne Stadtwerke unterliegen nicht dem EnWG oder der NIS-2-Richtlinie.",
+    b: "Plattform-Enabler benötigen keine Sicherheitsaudits.",
+    c: "Stadtwerke dürfen gesetzlich keine externen IT-Dienstleister beauftragen.",
+    d: "Ein einziger Plattform-Abschluss öffnet über White-Label-Schnittstellen den Zugang zu hunderten Stadtwerken gleichzeitig.",
+    ok: "d",
     h: "Überlege dir den Hebel zwischen Vertriebsaufwand (Sales-Zyklus) und Marktabdeckung.",
     e: "Volltreffer! Durch den Multiplikator-Ansatz umgehen wir lange Einzel-Ausschreibungen und skalieren unsere Lösungen über zentrale Plattform-Backends."
   },
   {
     t: "Protokoll-Architektur (HEMS)",
     q: "Was ist der entscheidende architektonische Vorteil von EEBUS gegenüber klassischem Modbus TCP bei der Integration von Wallboxen und Wärmepumpen?",
-    o1: "EEBUS nutzt ein semantisches Datenmodell (SPINE), das Use-Cases standardisiert beschreibt, statt herstellerspezifischer Register-Tabellen.",
-    o2: "Modbus TCP funktioniert nur über WLAN, EEBUS nur über Glasfaser.",
-    o3: "EEBUS ist vom BSI als einziges Protokoll gesetzlich vorgeschrieben.",
-    o4: "Modbus TCP kann keine elektrischen Leistungswerte übertragen.",
+    a: "EEBUS nutzt ein semantisches Datenmodell (SPINE), das Use-Cases standardisiert beschreibt, statt herstellerspezifischer Register-Tabellen.",
+    b: "Modbus TCP funktioniert nur über WLAN, EEBUS nur über Glasfaser.",
+    c: "EEBUS ist vom BSI als einziges Protokoll gesetzlich vorgeschrieben.",
+    d: "Modbus TCP kann keine elektrischen Leistungswerte übertragen.",
+    ok: "a",
     h: "Bei Modbus musst du Register 40012 händisch nachschlagen – EEBUS beschreibt Funktionen wie 'Ladeleistung begrenzen' abstrakt.",
     e: "Richtig! EEBUS (SPINE/SHIP) ermöglicht echte Plug-and-Play-Interoperabilität zwischen verschiedenen Herstellern ohne manuelles Register-Mapping."
   },
   {
     t: "Aktuelle Marktdynamik (Nov. 2026)",
     q: "Welche Konsequenz hat die BNetzA im November 2026 gegen 72 säumige Messstellenbetreiber verhängt, die die 20-%-Pflichteinbauquote verfehlt haben?",
-    o1: "Zwangsgelder von insgesamt 1,4 Mio. € mit einer Nachfrist bis Juni 2027 (danach Verfünffachung).",
-    o2: "Sofortiger Entzug der Netzkonzession innerhalb von 14 Tagen.",
-    o3: "Verbot des Verkaufs von dynamischen Stromtarifen für 5 Jahre.",
-    o4: "Zwangsverstaatlichung der Verteilnetze.",
+    a: "Sofortiger Entzug der Netzkonzession innerhalb von 14 Tagen.",
+    b: "Zwangsgelder von insgesamt 1,4 Mio. € mit einer Nachfrist bis Juni 2027 (danach Verfünffachung).",
+    c: "Verbot des Verkaufs von dynamischen Stromtarifen für 5 Jahre.",
+    d: "Zwangsverstaatlichung der Verteilnetze.",
+    ok: "b",
     h: "Es geht um einen Millionenbetrag im November 2026 und eine Verschärfung bis Mitte 2027.",
     e: "Genau richtig! 1,4 Mio. € Zwangsgeld und die Drohung der Verfünffachung bis Ende Juni 2027 erzeugen enormen IT- und Prozessdruck bei den Betreibern."
   },
   {
     t: "BNetzA-Regulierung & HEMS-Logik",
     q: "Was hat die BNetzA-Beschlusskammer 6 (BK6) bezüglich der Aufteilung eines Dimm-Sollwerts auf mehrere Geräte hinter einem Netzanschluss klargestellt?",
-    o1: "Das HEMS darf den Gesamtsollwert dynamisch nach eigener Maßgabe priorisieren (z. B. erst Wärmepumpe decken, Rest an Wallbox).",
-    o2: "Der Sollwert muss zwingend 50:50 starr auf alle Geräte aufgeteilt werden.",
-    o3: "Bei einem Dimm-Befehl muss immer zuerst die Wärmepumpe komplett abgeschaltet werden.",
-    o4: "Eine Bündelung mehrerer Geräte hinter einem HEMS ist unzulässig.",
+    a: "Der Sollwert muss zwingend 50:50 starr auf alle Geräte aufgeteilt werden.",
+    b: "Bei einem Dimm-Befehl muss immer zuerst die Wärmepumpe komplett abgeschaltet werden.",
+    c: "Das HEMS darf den Gesamtsollwert dynamisch nach eigener Maßgabe priorisieren (z. B. erst Wärmepumpe decken, Rest an Wallbox).",
+    d: "Eine Bündelung mehrerer Geräte hinter einem HEMS ist unzulässig.",
+    ok: "c",
     h: "Denke an den Praxistest, bei dem starre Aufteilung wertvolle Ladeleistung verschenkt hat.",
     e: "Stark! Die BNetzA erlaubt ausdrücklich die dynamische Priorisierung im HEMS – ein riesiger Software-Hebel für unsere Kunden-Assessments."
   },
   {
     t: "NIS-2 & Haftung (EnWG / BSIG)",
     q: "Welche persönliche Konsequenz droht Geschäftsführern von betroffenen Energie- und Infrastrukturunternehmen bei Verstößen gegen NIS-2-Risikomanagementpflichten?",
-    o1: "Persönliche Haftung der Geschäftsleitung sowie Bußgelder bis zu 10 Mio. € bzw. 2 % des Jahresumsatzes.",
-    o2: "Lediglich eine unverbindliche Rüge durch das BSI ohne finanzielle Folgen.",
-    o3: "Ausschließlich eine Verwarnung des IT-Administrators.",
-    o4: "Nur eine Nachschulungspflicht für den Datenschutzbeauftragten.",
-    h: "Die Haftung lässt sich nach NIS-2 / § 38 BSIG nicht mehr auf den IT-Leiter abschieben.",
-    e: "Korrekt! Die Geschäftsleitung haftet persönlich für die Umsetzung und Überwachung der Cybersicherheitsmaßnahmen – unser stärkstes Argument auf C-Level."
-  },
-  {
-    t: "OT-Security & Modbus TCP",
+    a: "Lediglich eine unverbindliche Rüge durch das BSI ohne finanzielle Folgen.",
+    b: "Ausschließlich eine Verwarnung des IT-Administrators.",
+    c: "Nur eine Nachschulungspflicht für den Datenschutzbeauftragten.",

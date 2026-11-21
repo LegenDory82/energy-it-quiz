@@ -20,7 +20,7 @@ body{font-family:-apple-system,sans-serif;background:#0f172a;color:#f8fafc;margi
 <div class="box">
   <div style="display:flex;justify-content:space-between;color:#38bdf8;font-size:12px;font-weight:bold;margin-bottom:10px">
     <span>CARBYTE ENERGY-IT ACADEMY</span>
-    <span id="top">STUFE 1 FREIGESCHALTET</span>
+    <span id="top">STUFE 1 / 4</span>
   </div>
   <div id="menu">
     <h3 style="margin-top:0">Wähle deine Ausbildungsstufe (Bestehen: 4/5 = 80%)</h3>
@@ -40,15 +40,40 @@ body{font-family:-apple-system,sans-serif;background:#0f172a;color:#f8fafc;margi
     <button type="button" class="btn" id="nxt" style="display:none" onclick="go()">Weiter ➔</button>
   </div>
 </div>
+
+<div id="d0" style="display:none">
+Welches EDI@Energy-Regelwerk steuert die Abrechnung von Fahrplanabweichungen auf Bilanzkreisebene?|GPKE|MaBiS|WiM Strom|MPaaEn|1|MaBiS regelt die Bilanzkreisabrechnung zwischen ÜNB, VNB und Bilanzkreisverantwortlichen.##
+Welche garantierte Mindestleistung muss einer SteuVE (>4,2 kW) bei Dimmung nach § 14a EnWG verbleiben?|0,0 kW|2,3 kW|4,2 kW|11,0 kW|2|4,2 kW ist Pflichtschwelle und garantierter Mindest-Sockel im gedimmten Zustand.##
+Welche Schnittstelle am SMGW bildet die kryptografisch gesicherte Brücke ins Kundennetz (HEMS)?|LMN-Port|CLS-Schnittstelle|RS-485|WAN-Modem|1|Über CLS (Controllable Local System) laufen verschlüsselte Steuerbefehle an Steuerbox oder HEMS.##
+Was hat die BNetzA (BK6) zur Aufteilung eines Dimm-Sollwerts auf mehrere Geräte im HEMS klargestellt?|Nur 50:50 starr|Wärmepumpe abschalten|Dynamische Priorisierung nach Bedarf erlaubt|Bündelung verboten|2|Das HEMS darf den Gesamtsollwert flexibel zuteilen, damit keine Ladeleistung verfällt.##
+Welche Sanktion verhängte die BNetzA im Nov. 2026 gegen 72 säumige Messstellenbetreiber?|Konzessionsentzug|1,4 Mio. € Zwangsgeld (Frist Juni 2027, sonst 5x)|Tarifverbot|Verstaatlichung|1|Bis Juni 2027 droht die Verfünffachung – ein starker Hebel für IT-Prozess-Assessments.
+</div>
+
+<div id="d1" style="display:none">
+Was ist der Hauptvorteil von EEBUS (SPINE) gegenüber klassischem Modbus TCP im HEMS?|Kabellose Funktechnik|Semantisches Datenmodell statt starrer Register-Tabellen|BSI-Pflichtprotokoll|Höhere Spannung|1|EEBUS beschreibt Use-Cases abstrakt und ermöglicht herstellerübergreifendes Plug-and-Play.##
+Welches Praxis-Problem tritt bei Modbus TCP auf Wechselrichtern (z.B. SolarEdge) häufig auf?|Nur ein aktiver TCP-Client gleichzeitig erlaubt|Port 502 ist immer verschlüsselt|Maximal 1 Byte pro Minute|Nur IPv6|0|Greifen zwei EMS gleichzeitig per Modbus TCP zu, verdrängen sie sich gegenseitig.##
+Wodurch unterscheidet sich OPC UA strukturell von klassischem Modbus TCP?|Reines Funkprotokoll|Integriertes Sicherheitsmodell (Zertifikate/Verschlüsselung) & Informationsmodell|Nur für analoge Zähler|Kein TCP/IP|1|OPC UA bringt Security-by-Design und objektorientierte Datenmodelle mit.##
+Welches Fernwirk-Protokoll ist der Standard zwischen Umspannwerken/Großspeichern und Netzleitstellen?|HTTP/REST|IEC 60870-5-104|Bluetooth LE|SMTP|1|IEC 60870-5-104 ist das klassische Telecontrol-Protokoll für Leitwarten und VPP-Dispatch.##
+Was zeichnet das im Nov. 2026 vorgestellte Kiwigrid RailX+ System besonders aus?|Erstes BSI-zertifiziertes EMS mit integrierter CLS-Steuerboxfunktion|Reiner Solar-Wechselrichter|Nur für Großkraftwerke|Cloud-Zwang|0|Es vereint CLS-Steuerbox und HEMS in einer BSI-zertifizierten Hutschienen-Lösung.
+</div>
+
+<div id="d2" style="display:none">
+Welche Konsequenz droht Geschäftsführern bei Verstößen gegen NIS-2-Pflichten (§ 38 BSIG)?|Nur Rüge für IT-Admin|Persönliche Haftung & Bußgelder bis 10 Mio. € bzw. 2% Umsatz|Keine|Nur Nachschulung|1|NIS-2 verankert die persönliche Haftung direkt bei der Geschäftsleitung.##
+Wie ist das Meldeverfahren bei erheblichen Sicherheitsvorfällen nach § 5d EnWG / NIS-2 gestaffelt?|Einmalig nach 30 Tagen|24h Erstmeldung, 72h Hauptbewertung, 1 Monat Abschlussbericht|Nur bei Stromausfall >24h|Freiwillig|1|Die 24h-Frühwarnung erfordert automatisiertes OT-Monitoring und klare Playbooks.##
+Welche Härtung fordert die Siemens-Leitlinie zwingend für unverschlüsseltes Modbus TCP?|IP-Adressfilterung, Netzwerksegmentierung & Kommunikationsmatrix|Nur WLAN-Passwort|Port 80 öffnen|Keine Maßnahmen nötig|0|Da Modbus TCP nativ keine Auth/Verschlüsselung hat, sind Whitelisting & Firewalls Pflicht.##
+Wovor warnte das BSI im Nov. 2026 explizit bei PV-Großanlagen und Speichern?|Vor zwingenden Hersteller-Cloud-Portalen & offenen Internet-Portfreigaben|Vor lokalen LAN-Kabeln|Vor EEBUS|Vor Linux-Systemen|0|Anlagen müssen lokal über gehärtete Schnittstellen (VPN/LAN) ohne Cloud-Zwang steuerbar sein.##
+Welcher Standard regelt die industrielle Produkt- und System-Security für Edge-Controller?|ISO 9001|IEC 62443 (-4-1 / -4-2)|DIN A4|EEBUS SPINE|1|IEC 62443 ist der internationale Leitstandard für OT- und Edge-Cybersicherheit.
+</div>
+
+<div id="d3" style="display:none">
+Warum fokussiert unsere B2B-Strategie auf Multiplikatoren wie Thüga SmartService oder SIV.AG?|Ein Plattform-Abschluss öffnet über White-Label-APIs hunderte Stadtwerke gleichzeitig|Einzelne Stadtwerke sind nicht reguliert|Plattformen brauchen kein Testing|Stadtwerke dürfen keine Berater buchen|0|Über Plattform-Enabler skalieren wir unsere Solutions ohne lange Einzel-Ausschreibungen.##
+Welcher ISO-Standard bildet die Kommunikationsbasis für bidirektionales Laden (V2G) zwischen E-Auto und Wallbox?|ISO 15118-20|ISO 27001|IEC 61850|Modbus RTU|0|ISO 15118-20 erweitert Plug&Charge um bidirektionale Energieflüsse (AC & DC V2G).##
+Welchen Hebel eröffnet das EuGH-Urteil / BWE-Verteilnetzpaket (Nov. 2026) für Kundenanlagen?|Verbot von Speichern|Bündelung von PV/Speicher/Lasten hinter einem Netzverknüpfungspunkt ohne Netzentgelte|Pflicht zur Cloud-Steuerung|Abschaffung von § 14a|1|Direktleitungen und Kundenanlagen werden massiv gestärkt – ideal für Microgrids & VPPs.##
+Was ist das Hauptziel unseres geplanten Produkts 'Energy-IT Readiness & Strategy Navigator'?|Reines Buchhaltungstool|3-Minuten-Messe-Diagnose zur Konvertierung von Erstkontakten in Kurz-Assessments|Ersatz für Smart Meter|Börsenhandel|1|Er zeigt Kunden Standort, nächsten Pflichtschritt und alternative Wachstumspfade auf.##
+Wann ist der optimale Trigger für die F&E-Kooperation mit der TU Braunschweig (elenia / NFF)?|Sofort ohne eigene Basis|Nach Abschluss Phase 1 & ersten MVPs (Phase 2), als Industriepartner auf Augenhöhe|Erst 2030|Nie|1|Mit eigenem Fundament und Praxis-Cases aus Assessments treten wir als starker Partner auf.
+</div>
+
 <script>
-var s0 = "Welches EDI@Energy-Regelwerk steuert die Abrechnung von Fahrplanabweichungen auf Bilanzkreisebene?|GPKE|MaBiS|WiM Strom|MPaaEn|1|MaBiS regelt die Bilanzkreisabrechnung zwischen ÜNB, VNB und Bilanzkreisverantwortlichen.##Welche garantierte Mindestleistung muss einer SteuVE (>4,2 kW) bei Dimmung nach § 14a EnWG verbleiben?|0,0 kW|2,3 kW|4,2 kW|11,0 kW|2|4,2 kW ist sowohl die Pflichtschwelle als auch der garantierte Mindest-Sockel im gedimmten Zustand.##Welche Schnittstelle am SMGW bildet die kryptografisch gesicherte Brücke ins Kundennetz (HEMS)?|LMN-Port|CLS-Schnittstelle|RS-485|WAN-Modem|1|Über CLS (Controllable Local System) laufen verschlüsselte Steuerbefehle an Steuerbox oder HEMS.##Was hat die BNetzA (BK6) zur Aufteilung eines Dimm-Sollwerts auf mehrere Geräte im HEMS klargestellt?|Nur 50:50 starr|Wärmepumpe abschalten|Dynamische Priorisierung nach Bedarf erlaubt|Bündelung verboten|2|Das HEMS darf den Gesamtsollwert flexibel zuteilen, damit keine Ladeleistung verfällt.##Welche Sanktion verhängte die BNetzA im Nov. 2026 gegen 72 säumige Messstellenbetreiber?|Konzessionsentzug|1,4 Mio. € Zwangsgeld (Frist Juni 2027, sonst 5x)|Tarifverbot|Verstaatlichung|1|Bis Juni 2027 droht die Verfünffachung – ein starker Hebel für IT-Prozess-Assessments.";
-
-var s1 = "Was ist der Hauptvorteil von EEBUS (SPINE) gegenüber klassischem Modbus TCP im HEMS?|Kabellose Funktechnik|Semantisches Datenmodell statt starrer Register-Tabellen|BSI-Pflichtprotokoll|Höhere Spannung|1|EEBUS beschreibt Use-Cases abstrakt und ermöglicht herstellerübergreifendes Plug-and-Play.##Welches Praxis-Problem tritt bei Modbus TCP auf Wechselrichtern (z.B. SolarEdge) häufig auf?|Nur ein aktiver TCP-Client gleichzeitig erlaubt|Port 502 ist immer verschlüsselt|Maximal 1 Byte pro Minute|Nur IPv6|0|Greifen zwei EMS gleichzeitig per Modbus TCP zu, verdrängen sie sich gegenseitig (Proxy nötig).##Wodurch unterscheidet sich OPC UA strukturell von klassischem Modbus TCP?|Reines Funkprotokoll|Integriertes Sicherheitsmodell (Zertifikate/Verschlüsselung) & Informationsmodell|Nur für analoge Zähler|Kein TCP/IP|1|OPC UA bringt Security-by-Design und objektorientierte Datenmodelle mit, Modbus TCP nicht.##Welches Fernwirk-Protokoll ist der Standard zwischen Umspannwerken/Großspeichern und Netzleitstellen?|HTTP/REST|IEC 60870-5-104|Bluetooth LE|SMTP|1|IEC 60870-5-104 ist das klassische Telecontrol-Protokoll für Leitwarten und VPP-Dispatch.##Was zeichnet das im Nov. 2026 vorgestellte Kiwigrid RailX+ System besonders aus?|Erstes BSI-zertifiziertes EMS mit integrierter CLS-Steuerboxfunktion|Reiner Solar-Wechselrichter|Nur für Großkraftwerke|Cloud-Zwang|0|Es vereint CLS-Steuerbox und HEMS in einer BSI-zertifizierten Hutschienen-Lösung.";
-
-var s2 = "Welche Konsequenz droht Geschäftsführern bei Verstößen gegen NIS-2-Pflichten (§ 38 BSIG)?|Nur Rüge für IT-Admin|Persönliche Haftung & Bußgelder bis 10 Mio. € bzw. 2% Umsatz|Keine|Nur Nachschulung|1|NIS-2 verankert die persönliche Haftung und Überwachungspflicht direkt bei der Geschäftsleitung.##Wie ist das Meldeverfahren bei erheblichen Sicherheitsvorfällen nach § 5d EnWG / NIS-2 gestaffelt?|Einmalig nach 30 Tagen|24h Erstmeldung, 72h Hauptbewertung, 1 Monat Abschlussbericht|Nur bei Stromausfall >24h|Freiwillig|1|Die 24h-Frühwarnung erfordert automatisiertes OT-Monitoring und klare Incident-Playbooks.##Welche Härtung fordert die Siemens-Leitlinie zwingend für unverschlüsseltes Modbus TCP?|IP-Adressfilterung, Netzwerksegmentierung & Kommunikationsmatrix|Nur WLAN-Passwort|Port 80 öffnen|Keine Maßnahmen nötig|0|Da Modbus TCP nativ keine Auth/Verschlüsselung hat, sind Whitelisting & Firewalls Pflicht.##Wovor warnte das BSI im Nov. 2026 explizit bei PV-Großanlagen und Speichern?|Vor zwingenden Hersteller-Cloud-Portalen & offenen Internet-Portfreigaben|Vor lokalen LAN-Kabeln|Vor EEBUS|Vor Linux-Systemen|0|Anlagen müssen lokal über gehärtete Schnittstellen (VPN/LAN) ohne Cloud-Zwang steuerbar sein.##Welcher Standard regelt die industrielle Produkt- und System-Security für Edge-Controller (z.B. Phoenix Contact)?|ISO 9001|IEC 62443 (-4-1 / -4-2)|DIN A4|EEBUS SPINE|1|IEC 62443 ist der internationale Leitstandard für OT- und Edge-Cybersicherheit.";
-
-var s3 = "Warum fokussiert unsere B2B-Strategie auf Multiplikatoren wie Thüga SmartService oder SIV.AG?|Ein Plattform-Abschluss öffnet über White-Label-APIs hunderte Stadtwerke gleichzeitig|Einzelne Stadtwerke sind nicht reguliert|Plattformen brauchen kein Testing|Stadtwerke dürfen keine Berater buchen|0|Über Plattform-Enabler skalieren wir unsere Solutions ohne langwierige Einzel-Ausschreibungen.##Welcher ISO-Standard bildet die Kommunikationsbasis für bidirektionales Laden (V2G) zwischen E-Auto und Wallbox?|ISO 15118-20|ISO 27001|IEC 61850|Modbus RTU|0|ISO 15118-20 erweitert Plug&Charge um bidirektionale Energieflüsse (AC & DC V2G).##Welchen Hebel eröffnet das EuGH-Urteil / BWE-Verteilnetzpaket (Nov. 2026) für Kundenanlagen?|Verbot von Speichern|Bündelung von PV/Speicher/Lasten hinter einem Netzverknüpfungspunkt ohne Netzentgelte|Pflicht zur Cloud-Steuerung|Abschaffung von § 14a|1|Direktleitungen und Kundenanlagen werden massiv gestärkt – ideal für Gewerbe-Microgrids & VPPs.##Was ist das Hauptziel unseres geplanten Produkts 'Energy-IT Readiness & Strategy Navigator'?|Reines Buchhaltungstool|3-Minuten-Messe-Diagnose zur Konvertierung von Erstkontakten in Kurz-Assessments|Ersatz für Smart Meter|Börsenhandel|1|Er zeigt Kunden Standort, nächsten Pflichtschritt und alternative Wachstumspfade auf.##Wann ist der optimale Trigger für die F&E-Kooperation mit der TU Braunschweig (elenia / NFF)?|Sofort ohne eigene Basis|Nach Abschluss Phase 1 & ersten MVPs (Phase 2), als Industriepartner auf Augenhöhe|Erst 2030|Nie|1|Mit eigenem Fundament und Praxis-Cases aus Assessments treten wir als starker Partner auf.";
-
 var maxLvl = 0, curLvl = 0, pool = null, curQ = null, step = 0, pts = 0, lock = 0;
 try { var saved = localStorage.getItem("cb_lvl"); if (saved) maxLvl = parseInt(saved, 10) || 0; } catch(e) {}
 
@@ -56,11 +81,10 @@ function drawMenu() {
   document.getElementById("menu").style.display = "block";
   document.getElementById("quiz").style.display = "none";
   document.getElementById("top").textContent = "FREIGESCHALTET: STUFE " + (maxLvl + 1) + " / 4";
-  var t0 = "Stufe 1: Regulatorik, Markt & § 14a EnWG";
-  var t1 = "Stufe 2: OT-Protokolle & Architektur";
-  var t2 = "Stufe 3: NIS-2, BSI & OT-Security";
-  var t3 = "Stufe 4: B2B-Strategie, V2G & Skalierung";
-  setBtn("l0", 0, t0); setBtn("l1", 1, t1); setBtn("l2", 2, t2); setBtn("l3", 3, t3);
+  setBtn("l0", 0, "Stufe 1: Regulatorik, Markt & § 14a EnWG");
+  setBtn("l1", 1, "Stufe 2: OT-Protokolle & Architektur");
+  setBtn("l2", 2, "Stufe 3: NIS-2, BSI & OT-Security");
+  setBtn("l3", 3, "Stufe 4: B2B-Strategie, V2G & Skalierung");
 }
 
 function setBtn(id, idx, title) {
@@ -72,7 +96,7 @@ function setBtn(id, idx, title) {
 function start(lvl) {
   if (lvl > maxLvl) return;
   curLvl = lvl; step = 0; pts = 0;
-  var raw = (lvl === 0) ? s0 : (lvl === 1) ? s1 : (lvl === 2) ? s2 : s3;
+  var raw = document.getElementById("d" + lvl).textContent.trim();
   pool = raw.split("##").sort(function() { return 0.5 - Math.random(); });
   document.getElementById("menu").style.display = "none";
   document.getElementById("quiz").style.display = "block";
@@ -81,4 +105,4 @@ function start(lvl) {
 
 function show() {
   lock = 0;
-  var parts = pool.shift().split("|");
+  var parts = pool.shift().trim().split("|");

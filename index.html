@@ -32,14 +32,9 @@
     <span class="stats" id="progress">Frage 1 / 10</span>
   </div>
   <div id="quiz-box">
-    <div class="topic" id="q-topic">Marktrollen &amp; Wertschöpfung</div>
-    <h2 id="q-text">Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?</h2>
-    <div class="options" id="q-options">
-      <button class="opt" onclick="check(this, 1)">Übertragungsnetzbetreiber (ÜNB / TSO)</button>
-      <button class="opt" onclick="check(this, 0)">Verteilnetzbetreiber (VNB / DSO)</button>
-      <button class="opt" onclick="check(this, 0)">Grundzuständiger Messstellenbetreiber (gMSB)</button>
-      <button class="opt" onclick="check(this, 0)">Bilanzkreisverantwortlicher (BKV)</button>
-    </div>
+    <div class="topic" id="q-topic"></div>
+    <h2 id="q-text"></h2>
+    <div class="options" id="q-options"></div>
     <div class="feedback" id="q-feedback"></div>
     <div class="controls">
       <button class="btn-hint" id="btn-hint" onclick="showHint()">💡 Experten-Hinweis</button>
@@ -56,7 +51,7 @@
 </div>
 
 <script>
-var data = [
+var data = new Array(
   {
     t: "Marktrollen & Wertschöpfung",
     q: "Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?",
@@ -64,7 +59,6 @@ var data = [
     o2: "Verteilnetzbetreiber (VNB / DSO)",
     o3: "Grundzuständiger Messstellenbetreiber (gMSB)",
     o4: "Bilanzkreisverantwortlicher (BKV)",
-    c: 1,
     h: "Denke an die 4 Betreiber der großen Strom-Autobahnen (Amprion, TenneT, 50Hertz, TransnetBW).",
     e: "Richtig! Die 4 deutschen ÜNBs steuern das Höchstspannungsnetz, halten die Frequenz sekundengenau bei 50 Hz und führen den Redispatch."
   },
@@ -75,7 +69,6 @@ var data = [
     o2: "0,0 kW (vollständige Abschaltung)",
     o3: "2,3 kW (Schuko-Basislast)",
     o4: "11,0 kW",
-    c: 1,
     h: "Der Schwellenwert für die Pflichtteilnahme und die garantierte Mindestleistung im gedimmten Zustand sind identisch.",
     e: "Exakt! Der Netzbetreiber darf Wallboxen oder Wärmepumpen (> 4,2 kW) bei Netzengpässen nicht auf Null abregeln, sondern muss mindestens 4,2 kW pro SteuVE (bzw. dynamisch im HEMS) garantieren."
   },
@@ -86,7 +79,6 @@ var data = [
     o2: "LMN-Schnittstelle (Local Metrological Network)",
     o3: "RS-485 Service-Port",
     o4: "WAN-Mobilfunk-Antenne",
-    c: 1,
     h: "Die Abkürzung steht für 'Controllable Local System'.",
     e: "Perfekt! Über den CLS-Proxy-Kanal kommuniziert der VNB Ende-zu-Ende-verschlüsselt mit der Steuerbox oder einem zertifizierten HEMS (wie dem neuen Kiwigrid RailX+)."
   },
@@ -97,7 +89,6 @@ var data = [
     o2: "Einzelne Stadtwerke unterliegen nicht dem EnWG oder der NIS-2-Richtlinie.",
     o3: "Plattform-Enabler benötigen keine Sicherheitsaudits.",
     o4: "Stadtwerke dürfen gesetzlich keine externen IT-Dienstleister beauftragen.",
-    c: 1,
     h: "Überlege dir den Hebel zwischen Vertriebsaufwand (Sales-Zyklus) und Marktabdeckung.",
     e: "Volltreffer! Durch den Multiplikator-Ansatz umgehen wir lange Einzel-Ausschreibungen und skalieren unsere Lösungen über zentrale Plattform-Backends."
   },
@@ -108,7 +99,6 @@ var data = [
     o2: "Modbus TCP funktioniert nur über WLAN, EEBUS nur über Glasfaser.",
     o3: "EEBUS ist vom BSI als einziges Protokoll gesetzlich vorgeschrieben.",
     o4: "Modbus TCP kann keine elektrischen Leistungswerte übertragen.",
-    c: 1,
     h: "Bei Modbus musst du Register 40012 händisch nachschlagen – EEBUS beschreibt Funktionen wie 'Ladeleistung begrenzen' abstrakt.",
     e: "Richtig! EEBUS (SPINE/SHIP) ermöglicht echte Plug-and-Play-Interoperabilität zwischen verschiedenen Herstellern ohne manuelles Register-Mapping."
   },
@@ -119,7 +109,6 @@ var data = [
     o2: "Sofortiger Entzug der Netzkonzession innerhalb von 14 Tagen.",
     o3: "Verbot des Verkaufs von dynamischen Stromtarifen für 5 Jahre.",
     o4: "Zwangsverstaatlichung der Verteilnetze.",
-    c: 1,
     h: "Es geht um einen Millionenbetrag im November 2026 und eine Verschärfung bis Mitte 2027.",
     e: "Genau richtig! 1,4 Mio. € Zwangsgeld und die Drohung der Verfünffachung bis Ende Juni 2027 erzeugen enormen IT- und Prozessdruck bei den Betreibern."
   },
@@ -130,7 +119,6 @@ var data = [
     o2: "Der Sollwert muss zwingend 50:50 starr auf alle Geräte aufgeteilt werden.",
     o3: "Bei einem Dimm-Befehl muss immer zuerst die Wärmepumpe komplett abgeschaltet werden.",
     o4: "Eine Bündelung mehrerer Geräte hinter einem HEMS ist unzulässig.",
-    c: 1,
     h: "Denke an den Praxistest, bei dem starre Aufteilung wertvolle Ladeleistung verschenkt hat.",
     e: "Stark! Die BNetzA erlaubt ausdrücklich die dynamische Priorisierung im HEMS – ein riesiger Software-Hebel für unsere Kunden-Assessments."
   },
@@ -138,3 +126,11 @@ var data = [
     t: "NIS-2 & Haftung (EnWG / BSIG)",
     q: "Welche persönliche Konsequenz droht Geschäftsführern von betroffenen Energie- und Infrastrukturunternehmen bei Verstößen gegen NIS-2-Risikomanagementpflichten?",
     o1: "Persönliche Haftung der Geschäftsleitung sowie Bußgelder bis zu 10 Mio. € bzw. 2 % des Jahresumsatzes.",
+    o2: "Lediglich eine unverbindliche Rüge durch das BSI ohne finanzielle Folgen.",
+    o3: "Ausschließlich eine Verwarnung des IT-Administrators.",
+    o4: "Nur eine Nachschulungspflicht für den Datenschutzbeauftragten.",
+    h: "Die Haftung lässt sich nach NIS-2 / § 38 BSIG nicht mehr auf den IT-Leiter abschieben.",
+    e: "Korrekt! Die Geschäftsleitung haftet persönlich für die Umsetzung und Überwachung der Cybersicherheitsmaßnahmen – unser stärkstes Argument auf C-Level."
+  },
+  {
+    t: "OT-Security & Modbus TCP",

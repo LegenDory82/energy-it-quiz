@@ -2,146 +2,44 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Energy-IT Experten-Trainer | Stufe 1</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Energy-IT Quiz Stufe 1</title>
 <style>
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 16px; display: flex; justify-content: center; min-height: 100vh; }
-  .app { width: 100%; max-width: 720px; background: #1e293b; border-radius: 16px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid #334155; align-self: flex-start; margin-top: 10px; }
-  .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 14px; margin-bottom: 20px; }
-  .badge { background: #0284c7; color: #fff; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
-  .stats { font-size: 14px; color: #94a3b8; font-weight: 600; }
-  .topic { font-size: 12px; text-transform: uppercase; color: #38bdf8; font-weight: 700; margin-bottom: 8px; }
-  h2 { font-size: 19px; line-height: 1.45; margin: 0 0 20px 0; color: #f1f5f9; }
-  .options { display: flex; flex-direction: column; gap: 12px; }
-  button.opt { background: #0f172a; border: 1.5px solid #334155; color: #e2e8f0; padding: 15px 16px; border-radius: 12px; text-align: left; font-size: 15px; line-height: 1.4; cursor: pointer; width: 100%; display: block; }
-  button.opt.correct { background: #064e3b; border-color: #10b981; color: #ecfdf5; font-weight: 600; }
-  button.opt.wrong { background: #7f1d1d; border-color: #ef4444; color: #fef2f2; }
-  .feedback { margin-top: 18px; padding: 14px 16px; border-radius: 10px; background: #0f172a; border-left: 4px solid #38bdf8; font-size: 14px; line-height: 1.5; color: #cbd5e1; display: none; }
-  .controls { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; }
-  .btn-main { background: #0284c7; color: #fff; border: none; padding: 13px 22px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; display: none; }
-  .btn-hint { background: transparent; color: #94a3b8; border: 1px solid #475569; padding: 10px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
-  .result { text-align: center; display: none; padding: 20px 0; }
-  .score-big { font-size: 48px; font-weight: 800; color: #38bdf8; margin: 10px 0; }
+body{font-family:sans-serif;background:#0f172a;color:#fff;margin:0;padding:16px}
+.box{max-width:680px;margin:auto;background:#1e293b;padding:20px;border-radius:14px}
+.opt{display:block;width:100%;padding:14px;margin:10px 0;background:#0f172a;color:#fff;border:1px solid #334155;border-radius:10px;text-align:left;font-size:15px}
+.ok{background:#064e3b!important;border-color:#10b981!important}
+.no{background:#7f1d1d!important;border-color:#ef4444!important}
+#fb{padding:12px;background:#0f172a;border-left:4px solid #38bdf8;margin-top:12px;display:none;font-size:14px}
+#nxt{padding:12px 20px;background:#0284c7;color:#fff;border:none;border-radius:8px;font-weight:bold;margin-top:14px;display:none}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="header">
-    <span class="badge">CARBYTE ENERGY-IT | STUFE 1</span>
-    <span class="stats" id="progress">Frage 1 / 10 | Punkte: 0</span>
-  </div>
-  <div id="quiz-box">
-    <div class="topic" id="q-topic">Marktrollen &amp; Wertschöpfung</div>
-    <h2 id="q-text">Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?</h2>
-    <div class="options" id="q-options">
-      <button type="button" class="opt" id="b0" onclick="pickAnswer(0)">Übertragungsnetzbetreiber (ÜNB / TSO)</button>
-      <button type="button" class="opt" id="b1" onclick="pickAnswer(1)">Verteilnetzbetreiber (VNB / DSO)</button>
-      <button type="button" class="opt" id="b2" onclick="pickAnswer(2)">Grundzuständiger Messstellenbetreiber (gMSB)</button>
-      <button type="button" class="opt" id="b3" onclick="pickAnswer(3)">Bilanzkreisverantwortlicher (BKV)</button>
-    </div>
-    <div class="feedback" id="q-feedback"></div>
-    <div class="controls">
-      <button type="button" class="btn-hint" id="btn-hint" onclick="showTip()">💡 Experten-Hinweis</button>
-      <button type="button" class="btn-main" id="btn-next" onclick="goNext()">Nächste Frage ➔</button>
-    </div>
-  </div>
-  <div class="result" id="result-box">
-    <div class="topic">TRAINING ABGESCHLOSSEN</div>
-    <h2>Dein Experten-Ergebnis (Stufe 1)</h2>
-    <div class="score-big" id="final-score"></div>
-    <p id="final-msg" style="color:#94a3b8; margin-bottom:24px; line-height:1.5;"></p>
-    <button type="button" class="btn-main" style="display:inline-block;" onclick="restartAll()">🔄 Neue Runde starten</button>
-  </div>
+<div class="box">
+  <div id="st" style="color:#38bdf8;font-size:13px;font-weight:bold">FRAGE 1 / 8</div>
+  <h3 id="qt">Welche Marktrolle hält in Deutschland die 50-Hz-Netzfrequenz und betreibt das Höchstspannungsnetz?</h3>
+  <button type="button" class="opt" id="o0" onclick="hit(0)">Übertragungsnetzbetreiber (ÜNB)</button>
+  <button type="button" class="opt" id="o1" onclick="hit(1)">Verteilnetzbetreiber (VNB)</button>
+  <button type="button" class="opt" id="o2" onclick="hit(2)">Lieferant / Stromversorger</button>
+  <button type="button" class="opt" id="o3" onclick="hit(3)">Messstellenbetreiber (MSB)</button>
+  <div id="fb"></div>
+  <button type="button" id="nxt" onclick="go()">Nächste Frage ➔</button>
 </div>
-
 <script>
-window.onerror = function(msg) {
-  var fb = document.getElementById("q-feedback");
-  if (fb) {
-    fb.style.display = "block";
-    fb.style.borderLeftColor = "#ef4444";
-    fb.textContent = "Fehler: " + msg;
-  }
-};
-
-var qList = new Array(
-  {
-    t: "Marktrollen & Wertschöpfung",
-    q: "Welche Marktrolle ist in Deutschland gesetzlich für die Systemstabilität (50 Hz Frequenzhaltung) und das überregionale Höchstspannungsnetz (220/380 kV) verantwortlich?",
-    o0: "Übertragungsnetzbetreiber (ÜNB / TSO)",
-    o1: "Verteilnetzbetreiber (VNB / DSO)",
-    o2: "Grundzuständiger Messstellenbetreiber (gMSB)",
-    o3: "Bilanzkreisverantwortlicher (BKV)",
-    ok: 0,
-    h: "Denke an die 4 Betreiber der großen Strom-Autobahnen (Amprion, TenneT, 50Hertz, TransnetBW).",
-    e: "Richtig! Die 4 deutschen ÜNBs steuern das Höchstspannungsnetz, halten die Frequenz sekundengenau bei 50 Hz und führen den Redispatch."
-  },
-  {
-    t: "Regulierung & § 14a EnWG",
-    q: "Welcher garantierte Mindestleistungs-Sockel (Wirkleistung) muss einer steuerbaren Verbrauchseinrichtung (> 4,2 kW) bei einem aktiven Dimm-Eingriff durch den VNB nach § 14a EnWG mindestens verbleiben?",
-    o0: "0,0 kW (vollständige Abschaltung)",
-    o1: "4,2 kW",
-    o2: "2,3 kW (Schuko-Basislast)",
-    o3: "11,0 kW",
-    ok: 1,
-    h: "Der Schwellenwert für die Pflichtteilnahme und die garantierte Mindestleistung im gedimmten Zustand sind identisch.",
-    e: "Exakt! Der Netzbetreiber darf Wallboxen oder Wärmepumpen (> 4,2 kW) bei Netzengpässen nicht auf Null abregeln, sondern muss mindestens 4,2 kW pro SteuVE garantieren."
-  },
-  {
-    t: "Smart Metering & BSI-Architektur",
-    q: "Welche Schnittstelle am Smart Meter Gateway (SMGW) bildet die kryptografisch gesicherte Brücke vom regulierten Netzbereich in das lokale Kundennetz (Steuerbox / HEMS)?",
-    o0: "LMN-Schnittstelle (Local Metrological Network)",
-    o1: "RS-485 Service-Port",
-    o2: "CLS-Schnittstelle (Controllable Local System)",
-    o3: "WAN-Mobilfunk-Antenne",
-    ok: 2,
-    h: "Die Abkürzung steht für 'Controllable Local System'.",
-    e: "Perfekt! Über den CLS-Proxy-Kanal kommuniziert der VNB Ende-zu-Ende-verschlüsselt mit der Steuerbox oder einem zertifizierten HEMS (wie dem neuen Kiwigrid RailX+)."
-  },
-  {
-    t: "B2B-Vertriebsstrategie & Skalierung",
-    q: "Warum fokussiert sich unsere B2B-Strategie im Versorgersegment primär auf Multiplikatoren wie Thüga SmartService, SIV.AG oder Kiwigrid statt auf Einzel-Stadtwerke?",
-    o0: "Einzelne Stadtwerke unterliegen nicht dem EnWG oder der NIS-2-Richtlinie.",
-    o1: "Plattform-Enabler benötigen keine Sicherheitsaudits.",
-    o2: "Stadtwerke dürfen gesetzlich keine externen IT-Dienstleister beauftragen.",
-    o3: "Ein einziger Plattform-Abschluss öffnet über White-Label-Schnittstellen den Zugang zu hunderten Stadtwerken gleichzeitig.",
-    ok: 3,
-    h: "Überlege dir den Hebel zwischen Vertriebsaufwand (Sales-Zyklus) und Marktabdeckung.",
-    e: "Volltreffer! Durch den Multiplikator-Ansatz umgehen wir lange Einzel-Ausschreibungen und skalieren unsere Lösungen über zentrale Plattform-Backends."
-  },
-  {
-    t: "Protokoll-Architektur (HEMS)",
-    q: "Was ist der entscheidende architektonische Vorteil von EEBUS gegenüber klassischem Modbus TCP bei der Integration von Wallboxen und Wärmepumpen?",
-    o0: "EEBUS nutzt ein semantisches Datenmodell (SPINE), das Use-Cases standardisiert beschreibt, statt herstellerspezifischer Register-Tabellen.",
-    o1: "Modbus TCP funktioniert nur über WLAN, EEBUS nur über Glasfaser.",
-    o2: "EEBUS ist vom BSI als einziges Protokoll gesetzlich vorgeschrieben.",
-    o3: "Modbus TCP kann keine elektrischen Leistungswerte übertragen.",
-    ok: 0,
-    h: "Bei Modbus musst du Register 40012 händisch nachschlagen – EEBUS beschreibt Funktionen wie 'Ladeleistung begrenzen' abstrakt.",
-    e: "Richtig! EEBUS (SPINE/SHIP) ermöglicht echte Plug-and-Play-Interoperabilität zwischen verschiedenen Herstellern ohne manuelles Register-Mapping."
-  },
-  {
-    t: "Aktuelle Marktdynamik (Nov. 2026)",
-    q: "Welche Konsequenz hat die BNetzA im November 2026 gegen 72 säumige Messstellenbetreiber verhängt, die die 20-%-Pflichteinbauquote verfehlt haben?",
-    o0: "Sofortiger Entzug der Netzkonzession innerhalb von 14 Tagen.",
-    o1: "Zwangsgelder von insgesamt 1,4 Mio. € mit einer Nachfrist bis Juni 2027 (danach Verfünffachung).",
-    o2: "Verbot des Verkaufs von dynamischen Stromtarifen für 5 Jahre.",
-    o3: "Zwangsverstaatlichung der Verteilnetze.",
-    ok: 1,
-    h: "Es geht um einen Millionenbetrag im November 2026 und eine Verschärfung bis Mitte 2027.",
-    e: "Genau richtig! 1,4 Mio. € Zwangsgeld und die Drohung der Verfünffachung bis Ende Juni 2027 erzeugen enormen IT- und Prozessdruck bei den Betreibern."
-  },
-  {
-    t: "BNetzA-Regulierung & HEMS-Logik",
-    q: "Was hat die BNetzA-Beschlusskammer 6 (BK6) bezüglich der Aufteilung eines Dimm-Sollwerts auf mehrere Geräte hinter einem Netzanschluss klargestellt?",
-    o0: "Der Sollwert muss zwingend 50:50 starr auf alle Geräte aufgeteilt werden.",
-    o1: "Bei einem Dimm-Befehl muss immer zuerst die Wärmepumpe komplett abgeschaltet werden.",
-    o2: "Das HEMS darf den Gesamtsollwert dynamisch nach eigener Maßgabe priorisieren (z. B. erst Wärmepumpe decken, Rest an Wallbox).",
-    o3: "Eine Bündelung mehrerer Geräte hinter einem HEMS ist unzulässig.",
-    ok: 2,
-    h: "Denke an den Praxistest, bei dem starre Aufteilung wertvolle Ladeleistung verschenkt hat.",
-    e: "Stark! Die BNetzA erlaubt ausdrücklich die dynamische Priorisierung im HEMS – ein riesiger Software-Hebel für unsere Kunden-Assessments."
-  },
-  {
-    t: "NIS-2 & Haftung (EnWG / BSIG)",
+var db=[
+{q:"Welche Marktrolle hält in Deutschland die 50-Hz-Netzfrequenz und betreibt das Höchstspannungsnetz?",o:["Übertragungsnetzbetreiber (ÜNB)","Verteilnetzbetreiber (VNB)","Lieferant / Stromversorger","Messstellenbetreiber (MSB)"],c:0,e:"Richtig! Die 4 ÜNBs (Amprion, TenneT, 50Hertz, TransnetBW) sichern die Systemstabilität."},
+{q:"Welche Mindestleistung muss nach § 14a EnWG bei einem Dimm-Eingriff pro steuerbarem Gerät (>4,2 kW) verbleiben?",o:["0,0 kW","4,2 kW","2,3 kW","11,0 kW"],c:1,e:"Exakt! 4,2 kW ist sowohl die Eintrittsschwelle als auch der garantierte Mindest-Sockel."},
+{q:"Welche Schnittstelle am Smart Meter Gateway bildet die sichere Brücke ins Kundennetz (Steuerbox/HEMS)?",o:["LMN-Port","RS-485","CLS-Schnittstelle","WAN-Modem"],c:2,e:"Perfekt! Über CLS (Controllable Local System) laufen alle verschlüsselten Steuerbefehle."},
+{q:"Warum zielt unsere B2B-Strategie primär auf Multiplikatoren wie Thüga, SIV.AG oder Kiwigrid?",o:["Stadtwerke sind von NIS-2 befreit","Ein Plattform-Abschluss öffnet hunderte Stadtwerke gleichzeitig","Plattformen brauchen keine Audits","Stadtwerke dürfen keine IT einkaufen"],c:1,e:"Volltreffer! Plattform-Enabler skalieren unsere Lösungen ohne lange Einzel-Vergaben."},
+{q:"Was unterscheidet EEBUS architektonisch von klassischem Modbus TCP?",o:["EEBUS nutzt semantische Use-Cases (SPINE) statt starrer Register-Tabellen","Modbus ist kabellos","EEBUS ist vom BSI vorgeschrieben","Modbus überträgt keine Leistung"],c:0,e:"Richtig! EEBUS ermöglicht herstellerübergreifendes Plug-and-Play im HEMS."},
+{q:"Was verhängte die BNetzA im Nov. 2026 gegen 72 Messstellenbetreiber wegen verfehlter 20%-iMSys-Quote?",o:["Konzessionsentzug","1,4 Mio. € Zwangsgeld (Frist Juni 2027, sonst 5-fach)","Verbot dynamischer Tarife","Verstaatlichung"],c:1,e:"Genau! Bis Juni 2027 droht die Verfünffachung – ein massiver Hebel für unsere Assessments."},
+{q:"Was darf ein HEMS laut BNetzA-Beschlusskammer 6 bei einem Dimm-Befehl für mehrere Geräte tun?",o:["Nur 50:50 aufteilen","Wärmepumpe abschalten","Leistung dynamisch nach Bedarf priorisieren","Gar nicht bündeln"],c:2,e:"Stark! Dynamische Priorisierung verhindert verschenkte Ladeleistung."},
+{q:"Welche Konsequenz droht Geschäftsführern bei Verstößen gegen NIS-2-Pflichten?",o:["Nur Rüge","Persönliche Haftung & bis zu 10 Mio. € Bußgeld","Nur Warnung für Admins","Keine"],c:1,e:"Korrekt! Persönliche C-Level-Haftung ist unser stärkstes Vertriebsargument."}
+];
+var i=0,p=0,lock=0;
+function show(){lock=0;var x=db[i];document.getElementById("st").textContent="FRAGE "+(i+1)+" / "+db.length+" | PUNKTE: "+p;document.getElementById("qt").textContent=x.q;document.getElementById("fb").style.display="none";document.getElementById("nxt").style.display="none";for(var k=0;k<4;k++){var b=document.getElementById("o"+k);b.className="opt";b.textContent=x.o[k];}}
+function hit(k){if(lock)return;lock=1;var x=db[i];document.getElementById("o"+x.c).className="opt ok";if(k===x.c)p++;else document.getElementById("o"+k).className="opt no";document.getElementById("st").textContent="FRAGE "+(i+1)+" / "+db.length+" | PUNKTE: "+p;var f=document.getElementById("fb");f.textContent=x.e;f.style.display="block";document.getElementById("nxt").style.display="inline-block";}
+function go(){i++;if(i<db.length)show();else{document.getElementById("qt").textContent="Fertig! Dein Ergebnis: "+p+" von "+db.length+" Punkten.";for(var k=0;k<4;k++)document.getElementById("o"+k).style.display="none";document.getElementById("fb").style.display="none";document.getElementById("nxt").textContent="Neu starten";document.getElementById("nxt").onclick=function(){location.reload();};}}
+</script>
+</body>
+</html>

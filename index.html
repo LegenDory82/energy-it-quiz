@@ -3,43 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Energy-IT Quiz Stufe 1</title>
+<title>CarByte Energy-IT Academy</title>
 <style>
-body{font-family:sans-serif;background:#0f172a;color:#fff;margin:0;padding:16px}
-.box{max-width:680px;margin:auto;background:#1e293b;padding:20px;border-radius:14px}
-.opt{display:block;width:100%;padding:14px;margin:10px 0;background:#0f172a;color:#fff;border:1px solid #334155;border-radius:10px;text-align:left;font-size:15px}
-.ok{background:#064e3b!important;border-color:#10b981!important}
+body{font-family:-apple-system,sans-serif;background:#0f172a;color:#f8fafc;margin:0;padding:14px}
+.box{max-width:680px;margin:auto;background:#1e293b;padding:20px;border-radius:14px;border:1px solid #334155}
+.lvl{display:block;width:100%;padding:15px;margin:10px 0;background:#0f172a;color:#fff;border:1.5px solid #0284c7;border-radius:10px;text-align:left;font-size:15px;font-weight:bold}
+.lvl.lock{border-color:#334155;color:#64748b}
+.opt{display:block;width:100%;padding:13px;margin:9px 0;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:10px;text-align:left;font-size:14px;line-height:1.35}
+.ok{background:#064e3b!important;border-color:#10b981!important;font-weight:bold}
 .no{background:#7f1d1d!important;border-color:#ef4444!important}
-#fb{padding:12px;background:#0f172a;border-left:4px solid #38bdf8;margin-top:12px;display:none;font-size:14px}
-#nxt{padding:12px 20px;background:#0284c7;color:#fff;border:none;border-radius:8px;font-weight:bold;margin-top:14px;display:none}
+#fb{padding:12px;background:#0f172a;border-left:4px solid #38bdf8;margin-top:12px;display:none;font-size:13px;line-height:1.4;color:#cbd5e1}
+.btn{padding:12px 18px;background:#0284c7;color:#fff;border:none;border-radius:8px;font-weight:bold;margin-top:14px;font-size:14px}
 </style>
 </head>
 <body>
 <div class="box">
-  <div id="st" style="color:#38bdf8;font-size:13px;font-weight:bold">FRAGE 1 / 8</div>
-  <h3 id="qt">Welche Marktrolle hält in Deutschland die 50-Hz-Netzfrequenz und betreibt das Höchstspannungsnetz?</h3>
-  <button type="button" class="opt" id="o0" onclick="hit(0)">Übertragungsnetzbetreiber (ÜNB)</button>
-  <button type="button" class="opt" id="o1" onclick="hit(1)">Verteilnetzbetreiber (VNB)</button>
-  <button type="button" class="opt" id="o2" onclick="hit(2)">Lieferant / Stromversorger</button>
-  <button type="button" class="opt" id="o3" onclick="hit(3)">Messstellenbetreiber (MSB)</button>
-  <div id="fb"></div>
-  <button type="button" id="nxt" onclick="go()">Nächste Frage ➔</button>
+  <div style="display:flex;justify-content:space-between;color:#38bdf8;font-size:12px;font-weight:bold;margin-bottom:10px">
+    <span>CARBYTE ENERGY-IT ACADEMY</span>
+    <span id="top">STUFE 1 FREIGESCHALTET</span>
+  </div>
+  <div id="menu">
+    <h3 style="margin-top:0">Wähle deine Ausbildungsstufe (Bestehen: 4/5 = 80%)</h3>
+    <button type="button" class="lvl" id="l0" onclick="start(0)">Stufe 1: Regulatorik, Markt &amp; § 14a EnWG</button>
+    <button type="button" class="lvl lock" id="l1" onclick="start(1)">🔒 Stufe 2: OT-Protokolle &amp; Architektur</button>
+    <button type="button" class="lvl lock" id="l2" onclick="start(2)">🔒 Stufe 3: NIS-2, BSI &amp; OT-Security</button>
+    <button type="button" class="lvl lock" id="l3" onclick="start(3)">🔒 Stufe 4: B2B-Strategie, V2G &amp; Skalierung</button>
+  </div>
+  <div id="quiz" style="display:none">
+    <div id="st" style="color:#94a3b8;font-size:13px;margin-bottom:6px"></div>
+    <h3 id="qt" style="margin-top:0;font-size:17px;line-height:1.4"></h3>
+    <button type="button" class="opt" id="o0" onclick="hit(0)"></button>
+    <button type="button" class="opt" id="o1" onclick="hit(1)"></button>
+    <button type="button" class="opt" id="o2" onclick="hit(2)"></button>
+    <button type="button" class="opt" id="o3" onclick="hit(3)"></button>
+    <div id="fb"></div>
+    <button type="button" class="btn" id="nxt" style="display:none" onclick="go()">Weiter ➔</button>
+  </div>
 </div>
 <script>
-var db=[
-{q:"Welche Marktrolle hält in Deutschland die 50-Hz-Netzfrequenz und betreibt das Höchstspannungsnetz?",o:["Übertragungsnetzbetreiber (ÜNB)","Verteilnetzbetreiber (VNB)","Lieferant / Stromversorger","Messstellenbetreiber (MSB)"],c:0,e:"Richtig! Die 4 ÜNBs (Amprion, TenneT, 50Hertz, TransnetBW) sichern die Systemstabilität."},
-{q:"Welche Mindestleistung muss nach § 14a EnWG bei einem Dimm-Eingriff pro steuerbarem Gerät (>4,2 kW) verbleiben?",o:["0,0 kW","4,2 kW","2,3 kW","11,0 kW"],c:1,e:"Exakt! 4,2 kW ist sowohl die Eintrittsschwelle als auch der garantierte Mindest-Sockel."},
-{q:"Welche Schnittstelle am Smart Meter Gateway bildet die sichere Brücke ins Kundennetz (Steuerbox/HEMS)?",o:["LMN-Port","RS-485","CLS-Schnittstelle","WAN-Modem"],c:2,e:"Perfekt! Über CLS (Controllable Local System) laufen alle verschlüsselten Steuerbefehle."},
-{q:"Warum zielt unsere B2B-Strategie primär auf Multiplikatoren wie Thüga, SIV.AG oder Kiwigrid?",o:["Stadtwerke sind von NIS-2 befreit","Ein Plattform-Abschluss öffnet hunderte Stadtwerke gleichzeitig","Plattformen brauchen keine Audits","Stadtwerke dürfen keine IT einkaufen"],c:1,e:"Volltreffer! Plattform-Enabler skalieren unsere Lösungen ohne lange Einzel-Vergaben."},
-{q:"Was unterscheidet EEBUS architektonisch von klassischem Modbus TCP?",o:["EEBUS nutzt semantische Use-Cases (SPINE) statt starrer Register-Tabellen","Modbus ist kabellos","EEBUS ist vom BSI vorgeschrieben","Modbus überträgt keine Leistung"],c:0,e:"Richtig! EEBUS ermöglicht herstellerübergreifendes Plug-and-Play im HEMS."},
-{q:"Was verhängte die BNetzA im Nov. 2026 gegen 72 Messstellenbetreiber wegen verfehlter 20%-iMSys-Quote?",o:["Konzessionsentzug","1,4 Mio. € Zwangsgeld (Frist Juni 2027, sonst 5-fach)","Verbot dynamischer Tarife","Verstaatlichung"],c:1,e:"Genau! Bis Juni 2027 droht die Verfünffachung – ein massiver Hebel für unsere Assessments."},
-{q:"Was darf ein HEMS laut BNetzA-Beschlusskammer 6 bei einem Dimm-Befehl für mehrere Geräte tun?",o:["Nur 50:50 aufteilen","Wärmepumpe abschalten","Leistung dynamisch nach Bedarf priorisieren","Gar nicht bündeln"],c:2,e:"Stark! Dynamische Priorisierung verhindert verschenkte Ladeleistung."},
-{q:"Welche Konsequenz droht Geschäftsführern bei Verstößen gegen NIS-2-Pflichten?",o:["Nur Rüge","Persönliche Haftung & bis zu 10 Mio. € Bußgeld","Nur Warnung für Admins","Keine"],c:1,e:"Korrekt! Persönliche C-Level-Haftung ist unser stärkstes Vertriebsargument."}
+var data=[
+[
+"Welches EDI@Energy-Regelwerk steuert die Abrechnung von Fahrplanabweichungen auf Bilanzkreisebene?|GPKE|MaBiS|WiM Strom|MPaaEn|1|MaBiS regelt die Bilanzkreisabrechnung zwischen ÜNB, VNB und Bilanzkreisverantwortlichen.",
+"Welche garantierte Mindestleistung muss einer SteuVE (>4,2 kW) bei Dimmung nach § 14a EnWG verbleiben?|0,0 kW|2,3 kW|4,2 kW|11,0 kW|2|4,2 kW ist sowohl die Pflichtschwelle als auch der garantierte Mindest-Sockel im gedimmten Zustand.",
+"Welche Schnittstelle am SMGW bildet die kryptografisch gesicherte Brücke ins Kundennetz (HEMS)?|LMN-Port|CLS-Schnittstelle|RS-485|WAN-Modem|1|Über CLS (Controllable Local System) laufen verschlüsselte Steuerbefehle an Steuerbox oder HEMS.",
+"Was hat die BNetzA (BK6) zur Aufteilung eines Dimm-Sollwerts auf mehrere Geräte im HEMS klargestellt?|Nur 50:50 starr|Wärmepumpe abschalten|Dynamische Priorisierung nach Bedarf erlaubt|Bündelung verboten|2|Das HEMS darf den Gesamtsollwert flexibel zuteilen, damit keine Ladeleistung verfällt.",
+"Welche Sanktion verhängte die BNetzA im Nov. 2026 gegen 72 säumige Messstellenbetreiber?|Konzessionsentzug|1,4 Mio. € Zwangsgeld (Frist Juni 2027, sonst 5x)|Tarifverbot|Verstaatlichung|1|Bis Juni 2027 droht die Verfünffachung – ein starker Hebel für IT-Prozess-Assessments."
+],
+[
+"Was ist der Hauptvorteil von EEBUS (SPINE) gegenüber klassischem Modbus TCP im HEMS?|Kabellose Funktechnik|Semantisches Datenmodell statt starrer Register-Tabellen|BSI-Pflichtprotokoll|Höhere Spannung|1|EEBUS beschreibt Use-Cases abstrakt und ermöglicht herstellerübergreifendes Plug-and-Play.",
+"Welches Praxis-Problem tritt bei Modbus TCP auf Wechselrichtern (z.B. SolarEdge) häufig auf?|Nur ein aktiver TCP-Client gleichzeitig erlaubt|Port 502 ist immer verschlüsselt|Maximal 1 Byte pro Minute|Nur IPv6|0|Greifen zwei EMS gleichzeitig per Modbus TCP zu, verdrängen sie sich gegenseitig (Proxy nötig).",
+"Wodurch unterscheidet sich OPC UA strukturell von klassischem Modbus TCP?|Reines Funkprotokoll|Integriertes Sicherheitsmodell (Zertifikate/Verschlüsselung) & Informationsmodell|Nur für analoge Zähler|Kein TCP/IP|1|OPC UA bringt Security-by-Design und objektorientierte Datenmodelle mit, Modbus TCP nicht.",
+"Welches Fernwirk-Protokoll ist der Standard zwischen Umspannwerken/Großspeichern und Netzleitstellen?|HTTP/REST|IEC 60870-5-104|Bluetooth LE|SMTP|1|IEC 60870-5-104 ist das klassische Telecontrol-Protokoll für Leitwarten und VPP-Dispatch.",
+"Was zeichnet das im Nov. 2026 vorgestellte Kiwigrid RailX+ System besonders aus?|Erstes BSI-zertifiziertes EMS mit integrierter CLS-Steuerboxfunktion|Reiner Solar-Wechselrichter|Nur für Großkraftwerke|Cloud-Zwang|0|Es vereint CLS-Steuerbox und HEMS in einer BSI-zertifizierten Hutschienen-Lösung."
+],
+[
+"Welche Konsequenz droht Geschäftsführern bei Verstößen gegen NIS-2-Pflichten (§ 38 BSIG)?|Nur Rüge für IT-Admin|Persönliche Haftung & Bußgelder bis 10 Mio. € bzw. 2% Umsatz|Keine|Nur Nachschulung|1|NIS-2 verankert die persönliche Haftung und Überwachungspflicht direkt bei der Geschäftsleitung.",
+"Wie ist das Meldeverfahren bei erheblichen Sicherheitsvorfällen nach § 5d EnWG / NIS-2 gestaffelt?|Einmalig nach 30 Tagen|24h Erstmeldung, 72h Hauptbewertung, 1 Monat Abschlussbericht|Nur bei Stromausfall >24h|Freiwillig|1|Die 24h-Frühwarnung erfordert automatisiertes OT-Monitoring und klare Incident-Playbooks.",
+"Welche Härtung fordert die Siemens-Leitlinie zwingend für unverschlüsseltes Modbus TCP?|IP-Adressfilterung, Netzwerksegmentierung & Kommunikationsmatrix|Nur WLAN-Passwort|Port 80 öffnen|Keine Maßnahmen nötig|0|Da Modbus TCP nativ keine Auth/Verschlüsselung hat, sind Whitelisting & Firewalls Pflicht.",
+"Wovor warnte das BSI im Nov. 2026 explizit bei PV-Großanlagen und Speichern?|Vor zwingenden Hersteller-Cloud-Portalen & offenen Internet-Portfreigaben|Vor lokalen LAN-Kabeln|Vor EEBUS|Vor Linux-Systemen|0|Anlagen müssen lokal über gehärtete Schnittstellen (VPN/LAN) ohne Cloud-Zwang steuerbar sein.",
+"Welcher Standard regelt die industrielle Produkt- und System-Security für Edge-Controller (z.B. Phoenix Contact)?|ISO 9001|IEC 62443 (-4-1 / -4-2)|DIN A4|EEBUS SPINE|1|IEC 62443 ist der internationale Leitstandard für OT- und Edge-Cybersicherheit."
+],
+[
+"Warum fokussiert unsere B2B-Strategie auf Multiplikatoren wie Thüga SmartService oder SIV.AG?|Ein Plattform-Abschluss öffnet über White-Label-APIs hunderte Stadtwerke gleichzeitig|Einzelne Stadtwerke sind nicht reguliert|Plattformen brauchen kein Testing|Stadtwerke dürfen keine Berater buchen|0|Über Plattform-Enabler skalieren wir unsere Solutions ohne langwierige Einzel-Ausschreibungen.",
+"Welcher ISO-Standard bildet die Kommunikationsbasis für bidirektionales Laden (V2G) zwischen E-Auto und Wallbox?|ISO 15118-20|ISO 27001|IEC 61850|Modbus RTU|0|ISO 15118-20 erweitert Plug&Charge um bidirektionale Energieflüsse (AC & DC V2G).",
+"Welchen Hebel eröffnet das EuGH-Urteil / BWE-Verteilnetzpaket (Nov. 2026) für Kundenanlagen?|Verbot von Speichern|Bündelung von PV/Speicher/Lasten hinter einem Netzverknüpfungspunkt ohne Netzentgelte|Pflicht zur Cloud-Steuerung|Abschaffung von § 14a|1|Direktleitungen und Kundenanlagen werden massiv gestärkt – ideal für Gewerbe-Microgrids & VPPs.",
+"Was ist das Hauptziel unseres geplanten Produkts 'Energy-IT Readiness & Strategy Navigator'?|Reines Buchhaltungstool|3-Minuten-Messe-Diagnose zur Konvertierung von Erstkontakten in Kurz-Assessments|Ersatz für Smart Meter|Börsenhandel|1|Er zeigt Kunden Standort, nächsten Pflichtschritt und alternative Wachstumspfade auf.",
+"Wann ist der optimale Trigger für die F&E-Kooperation mit der TU Braunschweig (elenia / NFF)?|Sofort ohne eigene Basis|Nach Abschluss Phase 1 & ersten MVPs (Phase 2), als Industriepartner auf Augenhöhe|Erst 2030|Nie|1|Mit eigenem Fundament und Praxis-Cases aus Assessments treten wir als starker Partner auf."
+]
 ];
-var i=0,p=0,lock=0;
-function show(){lock=0;var x=db[i];document.getElementById("st").textContent="FRAGE "+(i+1)+" / "+db.length+" | PUNKTE: "+p;document.getElementById("qt").textContent=x.q;document.getElementById("fb").style.display="none";document.getElementById("nxt").style.display="none";for(var k=0;k<4;k++){var b=document.getElementById("o"+k);b.className="opt";b.textContent=x.o[k];}}
-function hit(k){if(lock)return;lock=1;var x=db[i];document.getElementById("o"+x.c).className="opt ok";if(k===x.c)p++;else document.getElementById("o"+k).className="opt no";document.getElementById("st").textContent="FRAGE "+(i+1)+" / "+db.length+" | PUNKTE: "+p;var f=document.getElementById("fb");f.textContent=x.e;f.style.display="block";document.getElementById("nxt").style.display="inline-block";}
-function go(){i++;if(i<db.length)show();else{document.getElementById("qt").textContent="Fertig! Dein Ergebnis: "+p+" von "+db.length+" Punkten.";for(var k=0;k<4;k++)document.getElementById("o"+k).style.display="none";document.getElementById("fb").style.display="none";document.getElementById("nxt").textContent="Neu starten";document.getElementById("nxt").onclick=function(){location.reload();};}}
-</script>
-</body>
-</html>
+var maxLvl=0,curLvl=0,pool=[],idx=0,pts=0,lock=0;
+try{var s=localStorage.getItem("cb_lvl");if(s)maxLvl=parseInt(s,10)||0;}catch(e){}
+function drawMenu(){
+  document.getElementById("menu").style.display="block";
+  document.getElementById("quiz").style.display="none";
+  document.getElementById("top").textContent="FREIGESCHALTET: STUFE "+(maxLvl+1)+" / 4";
+  var names=["Stufe 1: Regulatorik, Markt & § 14a EnWG","Stufe 2: OT-Protokolle & Architektur","Stufe 3: NIS-2, BSI & OT-Security","Stufe 4: B2B-Strategie, V2G & Skalierung"];
+  for(var i=0;i<4;i++){
+    var b=document.getElementById("l"+i);
+    if(i<=maxLvl){b.className="lvl";b.textContent="✅ "+names[i];}
+    else{b.className="lvl lock";b.textContent="🔒 "+names[i]+" (Vorherige Stufe mit 80% bestehen)";}
+  }
+}
+function start(lvl){
+  if(lvl>maxLvl)return;
+  curLvl=lvl;idx=0;pts=0;
+  pool=data[lvl].slice(0).sort(function(){return 0.5-Math.random();});
+  document.getElementById("menu").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  show();
+}
+function show(){
+  lock=0;var p=pool[idx].split("|");
+  document.getElementById("st").textContent="STUFE "+(curLvl+1)+" | FRAGE "+(idx+1)+" / 5 | PUNKTE: "+pts+" (Ziel: 4)";
+  document.getElementById("qt").textContent=p[0];
+  document.getElementById("fb").style.display="none";
+  document.getElementById("nxt").style.display="none";
